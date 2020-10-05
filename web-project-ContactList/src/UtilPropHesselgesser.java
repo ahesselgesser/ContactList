@@ -1,4 +1,4 @@
-package contactList;
+
 import java.util.Properties;
 import javax.servlet.ServletContext;
 import java.io.File;
