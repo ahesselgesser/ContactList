@@ -8,7 +8,7 @@ public class DBConnectionHesselgesser {
    static ServletContext servletContext;
 
    static void getDBConnection() {
-      System.out.println("-------- MySQL JDBC Connection Testing ------------");
+      System.out.println("-------- MySQL JDBC Connection ------------");
       try {
          Class.forName("com.mysql.jdbc.Driver");
       } catch (ClassNotFoundException e) {
@@ -29,7 +29,7 @@ public class DBConnectionHesselgesser {
       }
 
       if (connection != null) {
-         System.out.println("You made it, take control your database now!");
+         System.out.println("Connected to database!");
       } else {
          System.out.println("Failed to make connection!");
       }
@@ -37,19 +37,19 @@ public class DBConnectionHesselgesser {
 
    static String getURL() {
       String url = UtilPropHesselgesser.getProp("url");
-      System.out.println("[DBG] URL: " + url);
+      //System.out.println("[DBG] URL: " + url);
       return url;
    }
 
    static String getUserName() {
       String usr = UtilPropHesselgesser.getProp("user");
-      System.out.println("[DBG] URL: " + usr);
+      //System.out.println("[DBG] URL: " + usr);
       return usr;
    }
 
    static String getPassword() {
       String pwd = UtilPropHesselgesser.getProp("password");
-      System.out.println("[DBG] URL: " + pwd);
+      //System.out.println("[DBG] URL: " + pwd);
       return pwd;
    }
 

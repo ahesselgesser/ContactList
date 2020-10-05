@@ -27,14 +27,15 @@ public class removeContact extends HttpServlet {
 		      PrintWriter out = response.getWriter();
 		      
 		      //HTML output basic stuff
-		      String title = "Contact List";
+		      String title = "Remove Contact";
 		      String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + //
 		            "transitional//en\">\n"; //
 		      out.println(docType + //
 		            "<html>\n" + //
-		            "<head><style>table, th, td {border: 1px solid black;border-collapse: collapse;}"
-		            + "</style><title>" + title + "</title></head>\n" + //
-		            "<body bgcolor=\"#f0f0f0\">\n" + //
+		            "<head><link rel=\"stylesheet\" href=\"mystyle.css\">"
+		            + "<title>" + title + "</title></head>\n" + //
+		            "<body><div>\n"
+		            + "<header><ul><li><a href=\"ContactList\">Contact List</a></li><li><a href=\"addContact.html\">Add Contact</a></li></ul></header>" + //
 		            "<h1 align=\"center\">" + title + "</h1>\n");
 
 		      //Connect to sql stuff
@@ -82,8 +83,7 @@ public class removeContact extends HttpServlet {
 		        	 out.println("You did not select any contacts to remove!");
 		         }
 		         //Link back to original page and last of html required stuff
-		         out.println("<a href=/web-project-ContactList/addContact.html>Add Contact</a><br>");
-		         out.println("</body></html>");
+		         out.println("</div></body></html>");
 		         
 		         //close everything
 		         

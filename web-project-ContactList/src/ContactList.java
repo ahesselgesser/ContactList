@@ -37,24 +37,22 @@ public class ContactList extends HttpServlet {
 		            "transitional//en\">\n"; //
 		      out.println(docType + //
 		            "<html>\n" + //
-		            "<head><style>table, th, td {border: 1px solid black;border-collapse: collapse;}"
+		            "<head><link rel=\"stylesheet\" href=\"mystyle.css\">"
 		            + "</style><title>" + title + "</title></head>\n" + //
-		            "<body>\n" + //
+		            "<body><div>\n"
+		            + "<header><ul><li><a href=\"ContactList\">Contact List</a></li><li><a href=\"addContact.html\">Add Contact</a></li></ul></header>" + //
 		            "<h1>" + title + "</h1>\n");
 
 		      //Connect to sql stuff
 		      Connection connection = null;
 		      PreparedStatement preparedStatement = null;
 		      
-		      //
-		      
-		      
 		      try {
 		         DBConnectionHesselgesser.getDBConnection(getServletContext());
 		         connection = DBConnectionHesselgesser.connection;
 		         
 		         // Create query and insert if there is a thing to insert
-		         if (firstName != null || lastName != null) {
+		         if (firstName != null) {
 		        	 String insertSql = " INSERT INTO ContactList (id, FIRST, LAST, EMAIL, PHONE, ADDRESS, BIRTHDAY) values (default, ?, ?, ?, ?, ?, ?)";
 			         PreparedStatement preparedStmt = connection.prepareStatement(insertSql);
 			         preparedStmt.setString(1, firstName);
@@ -74,8 +72,11 @@ public class ContactList extends HttpServlet {
 		         preparedStatement = connection.prepareStatement(selectSQL);
 		         ResultSet rs = preparedStatement.executeQuery();
 		         
+		         
+		         // Set up for checking current date against entries
+		         String[] date = java.time.LocalDate.now().toString().split("-");
+		         
 		         //output modified table
-		         out.println("Here is the contact list: <br>");
 		         out.println("<form action=\"RemoveContact\" method=\"POST\">");
 		         out.println("<table style=\"width:100%\">");
 		         out.println("<tr><th>Select</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone Number</th><th>Address</th><th>Birthday</th></tr>");
@@ -92,13 +93,18 @@ public class ContactList extends HttpServlet {
 		            out.printf("<td><input type=\"checkbox\" name=\"contactList\" value=\"%d\"</td>", dbID);
 		            out.printf("<td>%-30s</td><td>%-30s</td><td>%-30s</td><td>%-30s</td><td>%-30s</td><td>%-5s</td>", dbfirstName, dblastName, dbEmail, dbPhone, dbAddress, dbBirthday);
 					out.println("</tr>");
+					
+					//While outputting it needs to check for any birthdays that match today's date
+		            String[] bDay = dbBirthday.split("/");
+		            if (Integer.parseInt(bDay[0]) == Integer.parseInt(date[1]) && Integer.parseInt(bDay[1]) == Integer.parseInt(date[2]) ) {
+		            	out.printf("<h2>It's %s's birthday today! (%s/%s)</h2>", dbfirstName, date[1], date[2] );
+		            }
 		         }
 		         out.println("</table>");
 		         out.println("<input type=\"submit\" value=\"Delete Selected\" />");
 		         out.println("</form>");
 		         //Link back to original page and last of html required stuff
-		         out.println("<a href=/web-project-ContactList/addContact.html>Add Contact</a><br>");
-		         out.println("</body></html>");
+		         out.println("</div></body></html>");
 		         
 		         //close everything
 		         rs.close();

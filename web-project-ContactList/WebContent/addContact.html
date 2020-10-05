@@ -1,9 +1,15 @@
+<html>
+<head>
+<link rel="stylesheet" href="mystyle.css">
+</head>
 <body>
+<div>
+	<header><ul><li><a href="ContactList">Contact List</a></li><li><a href="addContact.html">Add Contact</a></li></ul></header>
 	<h1>Input Contact to Add</h1>
 	
 	<form action="ContactList" method="POST">
 	
-		First Name: <input type="text" name="firstName"> <br />
+		First Name: <input type="text" name="firstName" required> <br />
 		Last Name: <input type="text" name="lastName"> <br />
 		Email: <input type="text" name="email"> <br />
 		Phone: <input type="text" name="phone"> <br />
@@ -12,5 +18,6 @@
 		
 		<input type="submit" value="Submit" />
 	</form>
+	</div>
 </body>
 </html>
