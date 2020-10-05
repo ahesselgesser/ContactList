@@ -37,9 +37,10 @@ public class ContactList extends HttpServlet {
 		            "transitional//en\">\n"; //
 		      out.println(docType + //
 		            "<html>\n" + //
-		            "<head><title>" + title + "</title></head>\n" + //
-		            "<body bgcolor=\"#f0f0f0\">\n" + //
-		            "<h1 align=\"center\">" + title + "</h1>\n");
+		            "<head><style>table, th, td {border: 1px solid black;border-collapse: collapse;}"
+		            + "</style><title>" + title + "</title></head>\n" + //
+		            "<body>\n" + //
+		            "<h1>" + title + "</h1>\n");
 
 		      //Connect to sql stuff
 		      Connection connection = null;
@@ -64,7 +65,7 @@ public class ContactList extends HttpServlet {
 			         preparedStmt.setString(6, birthday);
 			         preparedStmt.execute();
 			         
-			         out.println( "You added the following contact:" + firstName + " " + lastName + " " + email + " " + phone + " " + address + " " + birthday + "<br><br>");
+			         out.println( "You added the following contact: " + firstName + "<br><br>");
 		         }
 		         //After potential insertion pull up the whole contact list to display
 		         String tableName = "ContactList";
@@ -74,9 +75,12 @@ public class ContactList extends HttpServlet {
 		         ResultSet rs = preparedStatement.executeQuery();
 		         
 		         //output modified table
-		         out.println("Here is the new modified database: <br><ul>");
+		         out.println("Here is the contact list: <br>");
+		         out.println("<form action=\"RemoveContact\" method=\"POST\">");
+		         out.println("<table style=\"width:100%\">");
+		         out.println("<tr><th>Select</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone Number</th><th>Address</th><th>Birthday</th></tr>");
 		         while (rs.next()) {
-		            int id = rs.getInt("id");
+		        	int dbID = rs.getInt("id");
 		            String dbfirstName = rs.getString("first").trim();
 		            String dblastName = rs.getString("last").trim();
 		            String dbEmail = rs.getString("email").trim();
@@ -84,18 +88,14 @@ public class ContactList extends HttpServlet {
 		            String dbAddress = rs.getString("address").trim();
 		            String dbBirthday = rs.getString("birthday").trim();
 		            
-		            out.println("<li>");
-					out.println("ID: " + id + ", ");
-					out.println("User: " + dbfirstName + ", ");
-					out.println("User: " + dblastName + ", ");
-					out.println("Email: " + dbEmail + ", ");
-					out.println("Phone: " + dbPhone + ", ");
-					out.println("Address: " + dbAddress + ", ");
-					out.println("Birthday: " + dbBirthday + ", ");
-					out.println("</li>");
+		            out.println("<tr>");
+		            out.printf("<td><input type=\"checkbox\" name=\"contactList\" value=\"%d\"</td>", dbID);
+		            out.printf("<td>%-30s</td><td>%-30s</td><td>%-30s</td><td>%-30s</td><td>%-30s</td><td>%-5s</td>", dbfirstName, dblastName, dbEmail, dbPhone, dbAddress, dbBirthday);
+					out.println("</tr>");
 		         }
-		         out.println("</ul>");
-		         
+		         out.println("</table>");
+		         out.println("<input type=\"submit\" value=\"Delete Selected\" />");
+		         out.println("</form>");
 		         //Link back to original page and last of html required stuff
 		         out.println("<a href=/web-project-ContactList/addContact.html>Add Contact</a><br>");
 		         out.println("</body></html>");
