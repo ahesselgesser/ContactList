@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -72,9 +73,9 @@ public class ContactList extends HttpServlet {
 		         preparedStatement = connection.prepareStatement(selectSQL);
 		         ResultSet rs = preparedStatement.executeQuery();
 		         
-		         
+		         ZoneId zone = ZoneId.of("America/Chicago");
 		         // Set up for checking current date against entries
-		         String[] date = java.time.LocalDate.now().toString().split("-");
+		         String[] date = java.time.LocalDate.now(zone).toString().split("-");
 		         
 		         //output modified table
 		         out.println("<form action=\"RemoveContact\" method=\"POST\">");
