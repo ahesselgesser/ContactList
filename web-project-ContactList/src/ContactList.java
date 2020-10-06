@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -72,9 +73,9 @@ public class ContactList extends HttpServlet {
 		         preparedStatement = connection.prepareStatement(selectSQL);
 		         ResultSet rs = preparedStatement.executeQuery();
 		         
-		         
+		         ZoneId zone = ZoneId.of("America/Chicago");
 		         // Set up for checking current date against entries
-		         String[] date = java.time.LocalDate.now().toString().split("-");
+		         String[] date = java.time.LocalDate.now(zone).toString().split("-");
 		         
 		         //output modified table
 		         out.println("<form action=\"RemoveContact\" method=\"POST\">");
@@ -95,10 +96,13 @@ public class ContactList extends HttpServlet {
 					out.println("</tr>");
 					
 					//While outputting it needs to check for any birthdays that match today's date
-		            String[] bDay = dbBirthday.split("/");
-		            if (Integer.parseInt(bDay[0]) == Integer.parseInt(date[1]) && Integer.parseInt(bDay[1]) == Integer.parseInt(date[2]) ) {
-		            	out.printf("<h2>It's %s's birthday today! (%s/%s)</h2>", dbfirstName, date[1], date[2] );
-		            }
+					if (dbBirthday != null) {
+						String[] bDay = dbBirthday.split("/");
+			            if (bDay.length == 2 && Integer.parseInt(bDay[0]) == Integer.parseInt(date[1]) && Integer.parseInt(bDay[1]) == Integer.parseInt(date[2]) ) {
+			            	out.printf("<h2>It's %s's birthday today! (%s/%s)</h2>", dbfirstName, date[1], date[2] );
+			            }
+						
+					}
 		         }
 		         out.println("</table>");
 		         out.println("<input type=\"submit\" value=\"Delete Selected\" />");

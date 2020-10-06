@@ -47,7 +47,7 @@ public class removeContact extends HttpServlet {
 		         
 		         // Create query and insert if there is a thing to insert
 		         
-		         if (removeList.length > 0) {
+		         if (removeList != null) {
 		        	 out.println("<table style=\"width:100%\">");
 			         out.println("<tr><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone Number</th><th>Address</th><th>Birthday</th></tr>");
 			         out.println("You removed the following contacts:");
@@ -80,7 +80,7 @@ public class removeContact extends HttpServlet {
 		        	 }
 		        	 out.println("</table>");
 		         } else {
-		        	 out.println("You did not select any contacts to remove!");
+		        	 out.println("<h2>You did not select any contacts to remove!</h2>");
 		         }
 		         //Link back to original page and last of html required stuff
 		         out.println("</div></body></html>");
